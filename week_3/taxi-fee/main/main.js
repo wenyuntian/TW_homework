@@ -1,4 +1,4 @@
-module.exports = function main(distance, waitingTime) {
+module.exports = function main(distance, waitingTime = 0) {
     const INITIATE_PRICE = 6,
           UNIT_PRICE = 0.8,
           CHARGE = UNIT_PRICE * 0.5,
@@ -7,7 +7,6 @@ module.exports = function main(distance, waitingTime) {
           CHARGE_DESTANCE = 8;
 
     let totalFee = 0;
-        
 
     if(distance <= INITIATE_DESTANCE) {
         totalFee = INITIATE_PRICE + waitingTime * WAITING_PRICE;

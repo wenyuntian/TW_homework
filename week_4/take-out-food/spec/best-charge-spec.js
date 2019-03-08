@@ -33,7 +33,7 @@ describe('Take out food', function () {
     expect(summary).toEqual(expected)
   });
 
-  it('should generate best charge when no promotion can be used', function() {
+  it('should generate best charge when no promo tion can be used', function() {
     let inputs = ["ITEM0013 x 4"];
     let summary = bestCharge(inputs).trim();
     let expected = `

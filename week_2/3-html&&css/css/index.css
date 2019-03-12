@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'Amatica SC';
+    src: url('../fonts/Amaticsc.ttf') format('truetype');
+}
+
+html {
+    font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+body {
+    background-color: #80a8cc;
+}
+
+.TW {
+    margin: 95px;
+    background-color: #fcf9f4;
+}
+
+.TW-header {
+    display: flex;
+    height: 75px;
+}
+
+.header-logo {
+    flex: 1;
+    text-align: right;
+    border-right: 1px solid #eae7e3;
+}
+
+.header-logo img {
+    height: 100%;
+    margin-right: 25px;
+}
+
+.header-nav {
+    flex: 3;
+}
+
+.nav-list {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li {
+    display: inline-block;
+    margin: 0 12px;
+    line-height: 75px;
+}
+
+.nav-list li a {
+    color: #d8d6d5;
+}
+
+.header-donate {
+    border-left: 1px solid #eae7e3;
+    flex: 1;
+    line-height: 75px;
+}
+
+.donate-button {
+    width: 125px;
+    height: 40px;
+    margin-left: 25px;
+    color: #4d4e59;
+    border: 1px solid #dad7d2;
+    border-radius: 3px;
+    background-color: #fcf9f4;
+}
+
+.TW-introduction {
+    position: relative;
+    height: 550px;
+    background: url('../images/background-1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.introduction-content {
+    width: 100%;
+    height: 100%;
+    padding-top: 180px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1)
+}
+
+.content-text {
+    font-family: 'Amatica SC', cursive;
+    font-size: 60px;
+    font-weight: 100;
+    margin: 15px 0;
+}
+
+.introduction-content button {
+    font-family: 'Amatica SC', cursive;
+    font-size: 24px;
+    border: 1px solid #fff;
+    color: #fff;
+    height: 45px;
+    width: 175px;
+    border-radius: 5px;
+    margin-left: 16px;
+}
+
+.student {
+    background-color: transparent;
+}
+
+.tutor {
+    background-color: rgba(255, 255, 255, 0.2)
+}
+
+.TW-mission {
+    height: 400px;
+}
+
+.mission-content {
+    color: #4d4e59;
+    text-align: center;
+    padding: 55px 225px 0 225px;
+
+}
+
+.content-detail {
+    font-size: 20px;
+    font-family: 'Open Sans';
+    color: #636471;
+    line-height: 35px;
+}
+
+.donate {
+    width: 225px;
+    height: 45px;
+    background-color: #ffcd62;
+    border: none;
+    border-radius: 5px;
+    color: #636471;
+}
+
+.TW-students {
+    display: flex;
+    height: 400px;
+    background-color: #91d0b1;
+}
+
+.students-icon {
+    flex: 1;
+    display: flex;
+    align-items:center;
+}
+
+.icon-box {
+    height: 225 px;
+    width: 225px;
+    line-height: 225px;
+    font-size: 105px;
+    border-radius: 50%;
+    background-color: #77ae93;
+    text-align: center;
+    color: #91d0b1;
+    margin-left: 250px;
+}
+
+.students-content {
+    flex: 1;
+    padding-top: 45px;
+    color: #fff;
+}
+
+.students-content .content-detail {
+    color: #fff;
+    font-size: 16px;
+    padding-right: 155px;
+    line-height: 25px;
+    margin: 0;
+}
+
+.start-learning {
+    width: 225px;
+    height: 45px;
+    border: none;
+    background-color: #77ae93;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 25px;
+}

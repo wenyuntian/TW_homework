@@ -11,13 +11,29 @@ body {
 }
 
 .TW {
-    margin: 95px;
+    margin: 85px auto;
+    width: 1200px;
     background-color: #fcf9f4;
+    box-shadow: 10px 10px 48px 10px#6d91b1;
 }
 
 .TW-header {
     display: flex;
     height: 75px;
+    position: relative;
+}
+
+.TW-header:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    transform-origin:top right;
+    transform: skewX(40deg);
+    /* transform: scale(1, 5); */
+    z-index: -1;
 }
 
 .header-logo {
@@ -137,37 +153,62 @@ body {
     color: #636471;
 }
 
-.TW-students {
+.TW-students, .TW-partners {
     display: flex;
     height: 400px;
     background-color: #91d0b1;
+    position: relative;
 }
 
-.students-icon {
+.students-icon, .partners-icon {
     flex: 1;
     display: flex;
     align-items:center;
 }
 
 .icon-box {
-    height: 225 px;
+    height: 225px;
     width: 225px;
     line-height: 225px;
     font-size: 105px;
     border-radius: 50%;
-    background-color: #77ae93;
     text-align: center;
+    
+}
+
+.students-icon .icon-box, .partners-icon .icon-box {
     color: #91d0b1;
+    background-color: #77ae93;
     margin-left: 250px;
 }
 
-.students-content {
+.students-content, .partners-content {
     flex: 1;
     padding-top: 45px;
     color: #fff;
 }
 
-.students-content .content-detail {
+.carousel-controller {
+    list-style: none;
+    position: absolute;
+    right: 95px;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.controller-item {
+    width: 16px;
+    height: 16px;
+    background-color: #77ae93;
+    border-radius: 50%;
+    margin: 8px 0;
+}
+
+.controller-item.active {
+    background-color: #fff;
+}
+
+.students-content .content-detail, .partners-content .content-detail {
     color: #fff;
     font-size: 16px;
     padding-right: 155px;
@@ -183,4 +224,115 @@ body {
     border-radius: 5px;
     color: #fff;
     margin-top: 25px;
+}
+
+.TW-tutors {
+    display: flex;
+    height: 400px;
+    background-color: #ffcd62;
+}
+
+.tutors-content {
+    flex: 1;
+    padding-left: 225px;
+    color: #fff;
+    padding-top: 45px;
+}
+
+.tutors-content .content-detail {
+    color: #fff;
+    font-size: 16px;
+    padding-right: 125px;
+    line-height: 25px;
+    margin: 0;
+}
+
+.tutors-icon {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.tutors-icon .icon-box {
+    color: #ffcd62;
+    background-color: #eabc5b;
+}
+
+.join-us, .help-us {
+    width: 225px;
+    height: 45px;
+    border: none;
+    background-color: #eabc5b;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 25px;
+}
+
+.TW-partners {
+    background-color: #80a8cc;
+}
+
+.help-us {
+    background-color: #6d91b1;
+}
+
+.partners-icon .icon-box {
+    background-color: #6d91b1;
+    color: #80a8cc;
+}
+
+.TW-progress {
+    height: 550px;
+    background-color: #fcf9f4;
+    text-align: center;
+}
+
+.progress-content .content-text {
+    margin: 115px 0 65px 0;
+    color: #909094;
+}
+
+.TW-progress .content-details {
+    display: flex;
+    padding: 0 125px;
+}
+
+.content-details>div {
+    border: 1px solid #eeece7;
+    margin: 0 8px;
+    height: 255px;
+    border-radius: 5px;
+}
+
+.details-hours {
+    flex: 1;
+    color: #91d0b1;
+}
+
+.details-sessions {
+    flex: 1;
+    color: #ffcd62;
+}
+
+.details-volunteer {
+    flex: 1;
+    color: #80a8cc;
+}
+
+.detail-number {
+    font-size: 72px;
+    font-family: 'Amatica SC';
+    margin: 35px 0;
+}
+
+.datail-name {
+    font-size: 16px;
+}
+
+.TW-footer {
+    height: 75px;
+    background-color: #4d4e59;
+    text-align: center;
+    line-height: 75px;
+    color: #d4d2d0;
 }

@@ -23,19 +23,6 @@ body {
     position: relative;
 }
 
-.TW-header:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    width: 100px;
-    height: 100px;
-    background-color: #fff;
-    transform-origin:top right;
-    transform: skewX(40deg);
-    /* transform: scale(1, 5); */
-    z-index: -1;
-}
-
 .header-logo {
     flex: 1;
     text-align: right;

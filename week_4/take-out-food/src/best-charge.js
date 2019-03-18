@@ -1,63 +1,88 @@
 function bestCharge(selectedItems) {
-  let [discountCharge, fullCharge] = [0, 0];
+  let allFoodItems = loadAllItems();
   let promotions = loadPromotions();
-  let allGoods = loadAllItems();
+  let orderDetail = {
+    foodInformationList: new Map(),
+    promotionList: [],
+    totalMoney: 0,
+    savedMoney: 0
+  }
 
-  let OrderDetails = "============= 订餐明细 =============\n";
-  
-  selectedItems.forEach(element => {
-    let [goodsId, goodsCount] = element.split(' x ');
-    let goodsDetail = getGoodsDetail(goodsId, goodsCount, allGoods);
+  buildFoodInformationList(selectedItems, allFoodItems, orderDetail);
+  buildDiscountInformationList(promotions, orderDetail);
 
-    discountCharge += getDiscountPrice(goodsId, goodsCount, promotions, allGoods);
-    fullCharge += goodsDetail.totalPrice;
-
-    OrderDetails += `${goodsDetail.name} x ${goodsCount} = ${goodsDetail.totalPrice}元\n`
-  });
-
-  return printOrderDetails(discountCharge, fullCharge, OrderDetails);
+  return printOrderDetail(orderDetail);
 }
 
-function printOrderDetails(discountCharge, fullCharge, OrderDetails) {
-  let fullReduceCharge = fullCharge >= 30 ? (fullCharge - 6) : fullCharge;
+function buildFoodInformationList(selectedItems, allFoodItems, orderDetail) {
 
-  if(discountCharge === fullCharge && fullReduceCharge === fullCharge) {
-    OrderDetails += `-----------------------------------\n总计：${fullReduceCharge}元\n===================================`
-  }
-  else if(discountCharge > fullReduceCharge) {
-    OrderDetails += `-----------------------------------\n使用优惠:\n满30减6元，省${fullCharge - fullReduceCharge}元\n-----------------------------------\n总计：${fullReduceCharge}元\n===================================`
-  }
-  else {
-    OrderDetails += `-----------------------------------\n使用优惠:\n指定菜品半价(黄焖鸡，凉皮)，省${fullCharge - discountCharge}元\n-----------------------------------\n总计：${discountCharge}元\n===================================`
-  }
-  return OrderDetails;
-}
+  selectedItems.forEach((selectedItem) => {
+    let [itemId, itemAmount] = selectedItem.split(' x ');
 
-function getDiscountPrice(goodsId, goodsCount, promotions, allGoods) {
-  let discountGoods = promotions[1].items,
-      discountPrice = getGoodsDetail(goodsId, goodsCount, allGoods).totalPrice;
-
-  for (const index in discountGoods) {
-    if(goodsId === discountGoods[index]) {
-      discountPrice *= 0.5;
-      break;
-    }
-  }
-
-  return discountPrice;
-}
-
-
-
-function getGoodsDetail(goodsId, goodsCount=1, allGoods) {
-  for(index in allGoods) {
-    goods = allGoods[index];
-
-    if(goodsId === goods.id) {
-      return {
-        totalPrice: goods.price * goodsCount,
-        name: goods.name
+    allFoodItems.forEach((foodItem) => {
+      if(itemId === foodItem.id) {
+        orderDetail.foodInformationList.set(itemId, {
+          amount: itemAmount,
+          ... foodItem
+        })
+        orderDetail.totalMoney += foodItem.price * itemAmount;
       }
+    })
+  })
+}
+
+function buildDiscountInformationList(promotions, orderDetail) {
+  // 满30减6元
+  {
+    if(orderDetail.totalMoney >= 30) {
+      orderDetail.promotionList.push({
+        type: promotions[0].type,
+        discounts: 6,
+        note: ''
+      })
     }
   }
+
+  // 指定菜品半价
+  {
+    let promotionItems = promotions[1].items;
+    let discounts = 0;
+    let note = '';
+
+    orderDetail.foodInformationList.forEach((foodInformation, foodId) => {
+      promotionItems.forEach((promotionItem) => {
+        if(promotionItem === foodId) {
+          discounts += foodInformation.amount * foodInformation.price * 0.5;
+          note += (note ? `，${foodInformation.name}` : foodInformation.name);
+        }
+      })
+    })
+
+    orderDetail.promotionList.push({
+      type: promotions[1].type,
+      discounts: discounts,
+      note: note
+    })
+  }
+
+  orderDetail.promotionList.sort((prev, next) => {
+    return next.discounts - prev.discounts;
+  })
+
+  orderDetail.savedMoney = orderDetail.promotionList[0].discounts;
+  orderDetail.totalMoney -= orderDetail.savedMoney
+}
+
+function printOrderDetail(orderDetail) {
+  let {foodInformationList, promotionList, totalMoney, savedMoney} = orderDetail;
+  let orderDetailString = '============= 订餐明细 =============\n';
+
+  foodInformationList.forEach((foodItem) => {
+    orderDetailString += `${foodItem.name} x ${foodItem.amount} = ${foodItem.amount * foodItem.price}元\n`
+  })
+
+  orderDetailString += savedMoney === 0 ? '' : `-----------------------------------\n使用优惠:\n${promotionList[0].type}${promotionList[0].note ? `(${promotionList[0].note})` : ''}，省${orderDetail.savedMoney}元\n`;
+  orderDetailString += `-----------------------------------\n总计：${orderDetail.totalMoney}元\n===================================`
+  
+  return orderDetailString
 }

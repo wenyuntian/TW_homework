@@ -1,16 +1,16 @@
 function bestCharge(selectedItems) {
   let allFoodItems = loadAllItems();
   let promotions = loadPromotions();
+
+  let {foodInformationList, totalMoney} = buildFoodInformationList(selectedItems, allFoodItems);
+  let {promotionList, savedMoney} = buildDiscountInformationList(promotions, foodInformationList, totalMoney);
+
   let orderDetail = {
-    foodInformationList: new Map(),
-    promotionList: [],
-    totalMoney: 0,
-    savedMoney: 0
+    foodInformationList: foodInformationList,
+    promotionList: promotionList,
+    totalMoney: totalMoney - savedMoney,
+    savedMoney: savedMoney
   }
-
-  buildFoodInformationList(selectedItems, allFoodItems, orderDetail);
-  buildDiscountInformationList(promotions, orderDetail);
-
   return printOrderDetail(orderDetail);
 }
 
@@ -43,6 +43,9 @@ function buildBillImformation(orderDetail) {
 }
 
 function buildFoodInformationList(selectedItems, allFoodItems, orderDetail) {
+  let foodInformationList = new Map();
+  let totalMoney = 0;
+
   let selectedObjects = validateInput(selectedItems);
 
   selectedObjects.forEach((selectedItem) => {
@@ -53,35 +56,37 @@ function buildFoodInformationList(selectedItems, allFoodItems, orderDetail) {
 
     allFoodItems.forEach((foodItem) => {
       if (itemId === foodItem.id) {
-        orderDetail.foodInformationList.set(itemId, {
+        foodInformationList.set(itemId, {
           amount: itemAmount,
           ...foodItem
         })
-        orderDetail.totalMoney += foodItem.price * itemAmount;
+        totalMoney += foodItem.price * itemAmount;
       }
     })
   })
+
+  return {foodInformationList, totalMoney}
 }
 
 // 满30减6元
-function FullReductionPromotion(promotions, orderDetail) {
+function getFullReductionPromotion(promotions, totalMoney) {
 
-  if (orderDetail.totalMoney >= 30) {
-    orderDetail.promotionList.push({
+  if (totalMoney >= 30) {
+    return {
       type: promotions[0].type,
       discounts: 6,
       note: ''
-    })
+    }
   }
 }
 
 // 指定商品半价
-function halfPricePromotion(promotions, orderDetail) {
+function getHalfPricePromotion(promotions, foodInformationList) {
   let promotionItems = promotions[1].items;
   let discounts = 0;
   let note = '';
 
-  orderDetail.foodInformationList.forEach((foodInformation, foodId) => {
+  foodInformationList.forEach((foodInformation, foodId) => {
     promotionItems.forEach((promotionItem) => {
       if (promotionItem === foodId) {
         discounts += foodInformation.amount * foodInformation.price * 0.5;
@@ -90,20 +95,24 @@ function halfPricePromotion(promotions, orderDetail) {
     })
   })
 
-  orderDetail.promotionList.push({
+  return {
     type: promotions[1].type,
     discounts: discounts,
     note: note
-  })
+  }
 }
 
-function buildDiscountInformationList(promotions, orderDetail) {
+function buildDiscountInformationList(promotions, foodInformationList, totalMoney) {
+  let promotionList = [];
+  let fullReductionPromotion = getFullReductionPromotion(promotions, totalMoney);
+  let halfPricePromotion = getHalfPricePromotion(promotions, foodInformationList);
 
-  FullReductionPromotion(promotions, orderDetail);
-  halfPricePromotion(promotions, orderDetail);
+  promotionList.push(fullReductionPromotion, halfPricePromotion);
+  sortPromotionList(promotionList);
 
-  sortPromotionList(orderDetail.promotionList);
-  buildBillImformation(orderDetail);
+  let savedMoney = promotionList[0].discounts;
+
+  return {promotionList, savedMoney}
 }
 
 function printOrderDetail(orderDetail) {

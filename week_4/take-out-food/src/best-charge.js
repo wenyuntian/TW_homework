@@ -122,14 +122,17 @@ function printOrderDetail(orderDetail) {
     totalMoney,
     savedMoney
   } = orderDetail;
-  let orderDetailString = '============= 订餐明细 =============\n';
 
+  let foodInformationString = '';
   foodInformationList.forEach((foodItem) => {
-    orderDetailString += `${foodItem.name} x ${foodItem.amount} = ${foodItem.amount * foodItem.price}元\n`
+    foodInformationString += `${foodItem.name} x ${foodItem.amount} = ${foodItem.amount * foodItem.price}元\n`
   })
 
-  orderDetailString += savedMoney === 0 ? '' : `-----------------------------------\n使用优惠:\n${promotionList[0].type}${promotionList[0].note ? `(${promotionList[0].note})` : ''}，省${orderDetail.savedMoney}元\n`;
-  orderDetailString += `-----------------------------------\n总计：${orderDetail.totalMoney}元\n===================================`
+  let promotionString = savedMoney === 0 ? '' : `-----------------------------------\n使用优惠:\n${promotionList[0].type}${promotionList[0].note ? `(${promotionList[0].note})` : ''}，省${orderDetail.savedMoney}元\n`;
+  let billDetailString = `-----------------------------------\n总计：${orderDetail.totalMoney}元\n===================================`
 
-  return orderDetailString
+  return '============= 订餐明细 =============\n' +
+          foodInformationString + 
+          promotionString + 
+          billDetailString
 }

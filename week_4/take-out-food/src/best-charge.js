@@ -31,15 +31,10 @@ function validateInput(selectedItems) {
   return selectedObjects;
 }
 
-function sortPromotionList(PromotionList) {
-  PromotionList.sort((prev, next) => {
+function sortPromotionList(promotionList) {
+  promotionList.sort((prev, next) => {
     return next.discounts - prev.discounts;
   })
-}
-
-function buildBillImformation(orderDetail) {
-  orderDetail.savedMoney = orderDetail.promotionList[0].discounts;
-  orderDetail.totalMoney -= orderDetail.savedMoney;
 }
 
 function buildFoodInformationList(selectedItems, allFoodItems, orderDetail) {
